@@ -22,6 +22,7 @@ export class ServiceFactory {
     private static getInstance() {
         if (!ServiceFactory.factory) {
             ServiceFactory.factory = new ServiceFactory();
+            ServiceFactory.factory.services = new Map<string, Object>();
         }
         return ServiceFactory.factory;
     }
