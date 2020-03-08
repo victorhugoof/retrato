@@ -1,6 +1,6 @@
 import {model, Schema} from "mongoose";
 
-export const ItemVendaSchema = new Schema({
+export const ItemVendaModel = model('ItemVenda', new Schema({
     id: {
         type: Number,
         unique: true
@@ -29,5 +29,14 @@ export const ItemVendaSchema = new Schema({
         type: Date,
         default: Date.now
     }
-});
-export default model('ItemVenda', ItemVendaSchema);
+}));
+
+export interface ItemVenda {
+    id?: number,
+    venda_id?: number,
+    seq_item?: number,
+    produto_id?: number,
+    valor_unitario?: number,
+    quantidade?: number,
+    data_cadastro?: number
+}
