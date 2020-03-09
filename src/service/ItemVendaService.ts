@@ -78,4 +78,19 @@ export class ItemVendaService {
             return new ItemVendaDetalhado(item, produto);
         }));
     }
+
+    public async existeItemVendaProduto(produto_id: number): Promise<boolean> {
+        return new Promise(async (resolve, reject) => {
+            const produto = await ItemVendaModel.findOne({produto_id}, err => {
+                if (err) {
+                    reject(err);
+                }
+            });
+            if (produto) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        });
+    }
 }
