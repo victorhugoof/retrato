@@ -2,6 +2,8 @@ import getNextId from "../utils/NextId";
 import {ItemVendaModel} from "../models/ItemVendaModel";
 import {Message} from "../interfaces/Message";
 import {ItemVenda} from "../interfaces/ItemVenda";
+import {ItemVendaDetalhado} from "../interfaces/ItemVendaDetalhado";
+import {ServiceFactory} from "./ServiceFactory";
 
 export class ItemVendaService {
 
@@ -55,6 +57,22 @@ export class ItemVendaService {
         return new Promise(async (resolve, reject) => {
             await ItemVendaModel.deleteMany({venda_id}, err => err ? reject(err) : resolve());
             resolve();
+        });
+    }
+
+    public async findItensVendaDetalhado(venda_id: number): Promise<ItemVendaDetalhado[]> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const itens = await this.findAll(venda_id);
+                const retorno: ItemVendaDetalhado[] = [];
+                await itens.map(async (item) => {
+                    const produto = await ServiceFactory.getProdutoService().find(item.produto_id);
+                    return retorno.push(new ItemVendaDetalhado(item, produto));
+                });
+                resolve(retorno);
+            } catch (e) {
+                reject(e);
+            }
         });
     }
 }

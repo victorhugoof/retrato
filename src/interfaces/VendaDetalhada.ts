@@ -1,22 +1,22 @@
 import {Venda} from "./Venda";
-import {ItemVenda} from "./ItemVenda";
+import {ItemVendaDetalhado} from "./ItemVendaDetalhado";
 
 export class VendaDetalhada {
 
-    public venda_id: number;
-    public valor_total: number;
-    public quantidade_itens: number;
-    public data_cadastro: Date;
-    public itens: ItemVenda[];
+    venda_id: number;
+    valor_total: number;
+    quantidade_itens: number;
+    data_cadastro: Date;
+    itens: ItemVendaDetalhado[];
 
-    constructor(private venda: Venda,
-                private itensVenda: ItemVenda[]) {
+    constructor(venda: Venda,
+                itensVenda: ItemVendaDetalhado[]) {
 
         this.venda_id = venda.id;
         this.data_cadastro = venda.data_cadastro;
         this.itens = (itensVenda || []);
-        this.valor_total = this.itensVenda.map(item => item.valor_unitario * item.quantidade).reduce((previousValue, currentValue) => (previousValue || 0) + currentValue);
-        this.quantidade_itens = this.itensVenda.map(item => item.quantidade).reduce((previousValue, currentValue) => (previousValue || 0) + currentValue);
+        this.valor_total = this.itens.map(item => item.valor_total).reduce((previousValue, currentValue) => (previousValue || 0) + currentValue);
+        this.quantidade_itens = this.itens.map(item => item.quantidade).reduce((previousValue, currentValue) => (previousValue || 0) + currentValue);
     }
 
 }

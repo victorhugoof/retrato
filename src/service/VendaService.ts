@@ -47,7 +47,7 @@ export class VendaService {
         return new Promise(async (resolve, reject) => {
             try {
                 const venda = await this.find(id);
-                const itens = await ServiceFactory.getItemVendaService().findAll(venda.id);
+                const itens = await ServiceFactory.getItemVendaService().findItensVendaDetalhado(venda.id);
                 resolve(new VendaDetalhada(venda, itens));
             } catch (e) {
                 reject(e);

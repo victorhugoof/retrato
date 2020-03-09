@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import Produto from "../models/Produto";
+import {ProdutoModel as Produto} from "../models/Produto";
 import {Message} from "../interfaces/Message";
 import getNextId from "../utils/NextId";
 
