@@ -32,4 +32,4 @@ jobs:
         app-name: 'backend-retrato'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_8d3aab2430334a3784926fc700acd78f }}
-        package: backend
+        package: backend/dist
