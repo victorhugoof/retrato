@@ -1,6 +1,7 @@
 import getNextId from "../utils/NextId";
-import {ItemVenda, ItemVendaModel} from "../models/ItemVenda";
+import {ItemVendaModel} from "../models/ItemVendaModel";
 import {Message} from "../interfaces/Message";
+import {ItemVenda} from "../interfaces/ItemVenda";
 
 export class ItemVendaService {
 
