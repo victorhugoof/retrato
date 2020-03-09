@@ -10,7 +10,7 @@ class App {
 
     private app: express.Application = express();
     private mongoUrl: string = 'mongodb+srv://pod1:pod1@cluster-uhxmx.gcp.mongodb.net/retrato-da-moda?retryWrites=true&w=majority';
-    private port = 3000;
+    private port = 8080;
 
     constructor() {
         this.config();
