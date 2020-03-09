@@ -10,5 +10,6 @@ export class VendaRoutes {
         router.delete(`${path}/excluir/:id`, controller.delete);
         router.get(`${path}/:id`, controller.find);
         router.get(`${path}`, controller.findAll);
+        router.get(`${path}/:id/detalhada`, controller.findVendaDetalhada);
     }
 }

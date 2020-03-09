@@ -50,4 +50,11 @@ export class ItemVendaService {
     public async findAll(venda_id): Promise<ItemVenda[]> {
         return ItemVendaModel.find({venda_id});
     }
+
+    public async deletaItensVenda(venda_id: number): Promise<void> {
+        return new Promise(async (resolve, reject) => {
+            await ItemVendaModel.deleteMany({venda_id}, err => err ? reject(err) : resolve());
+            resolve();
+        });
+    }
 }

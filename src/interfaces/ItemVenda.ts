@@ -5,5 +5,5 @@ export interface ItemVenda {
     produto_id?: number,
     valor_unitario?: number,
     quantidade?: number,
-    data_cadastro?: number
+    data_cadastro?: Date
 }

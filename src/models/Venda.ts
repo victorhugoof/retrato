@@ -1,6 +1,6 @@
 import {model, Schema} from "mongoose";
 
-const VendaSchema = new Schema({
+export const VendaModel = model('Venda', new Schema({
     id: {
         type: Number,
         unique: true
@@ -9,5 +9,4 @@ const VendaSchema = new Schema({
         type: Date,
         default: Date.now
     }
-});
-export default model('Venda', VendaSchema);
+}));
