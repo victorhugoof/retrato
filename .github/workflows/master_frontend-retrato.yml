@@ -22,9 +22,9 @@ jobs:
 
     - name: npm install, build, and test
       run: |
+        cd frontend
         npm install
         npm run build --if-present
-        npm run test --if-present
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v1
@@ -32,4 +32,4 @@ jobs:
         app-name: 'frontend-retrato'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_5bfbf976c2a04b76805c4d55b5c040c5 }}
-        package: .
+        package: frontend
