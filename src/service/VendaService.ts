@@ -50,7 +50,7 @@ export class VendaService {
                 const itens = await ServiceFactory.getItemVendaService().findItensVendaDetalhado(venda.id);
                 resolve(new VendaDetalhada(venda, itens));
             } catch (e) {
-                reject(e);
+                reject(new Message('Error: ' + e));
             }
         });
     }

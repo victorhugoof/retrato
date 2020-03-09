@@ -64,15 +64,18 @@ export class ItemVendaService {
         return new Promise(async (resolve, reject) => {
             try {
                 const itens = await this.findAll(venda_id);
-                const retorno: ItemVendaDetalhado[] = [];
-                await itens.map(async (item) => {
-                    const produto = await ServiceFactory.getProdutoService().find(item.produto_id);
-                    return retorno.push(new ItemVendaDetalhado(item, produto));
-                });
-                resolve(retorno);
+                const convert = await this.convert(itens);
+                resolve(convert);
             } catch (e) {
                 reject(e);
             }
         });
+    }
+
+    private async convert(itens: ItemVenda[]): Promise<ItemVendaDetalhado[]> {
+        return Promise.all(itens.map(async (item) => {
+            const produto = await ServiceFactory.getProdutoService().find(item.produto_id);
+            return new ItemVendaDetalhado(item, produto);
+        }));
     }
 }

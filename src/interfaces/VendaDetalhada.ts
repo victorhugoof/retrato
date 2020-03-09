@@ -15,8 +15,8 @@ export class VendaDetalhada {
         this.venda_id = venda.id;
         this.data_cadastro = venda.data_cadastro;
         this.itens = (itensVenda || []);
-        this.valor_total = this.itens.map(item => item.valor_total).reduce((previousValue, currentValue) => (previousValue || 0) + currentValue);
-        this.quantidade_itens = this.itens.map(item => item.quantidade).reduce((previousValue, currentValue) => (previousValue || 0) + currentValue);
+        this.valor_total = this.itens.map(item => item.valor_total).reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+        this.quantidade_itens = this.itens.map(item => item.quantidade).reduce((previousValue, currentValue) => previousValue + currentValue, 0);
     }
 
 }
