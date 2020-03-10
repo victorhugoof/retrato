@@ -1,4 +1,4 @@
 export interface Venda {
-    id?: number;
-    data_cadastro?: Date;
+	id?: number;
+	data_cadastro?: Date;
 }

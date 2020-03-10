@@ -4,31 +4,31 @@
 name: BACKEND -> Build and deploy Node.js app to Azure Web App
 
 on:
-  push:
-    branches:
-      - master
+    push:
+        branches:
+            - master
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+    build-and-deploy:
+        runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@master
+        steps:
+            -   uses: actions/checkout@master
 
-    - name: Set up Node.js version
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
+            -   name: Set up Node.js version
+                uses: actions/setup-node@v1
+                with:
+                    node-version: '12.x'
 
-    - name: backend - npm install, build, and test
-      run: |
-        npm install
-        npm run build --if-present
+            -   name: backend - npm install, build, and test
+                run: |
+                    npm install
+                    npm run build --if-present
 
-    - name: 'Deploy to Azure Web App'
-      uses: azure/webapps-deploy@v1
-      with:
-        app-name: 'backend-retrato'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_8d3aab2430334a3784926fc700acd78f }}
-        package: .
+            -   name: 'Deploy to Azure Web App'
+                uses: azure/webapps-deploy@v1
+                with:
+                    app-name: 'backend-retrato'
+                    slot-name: 'production'
+                    publish-profile: ${{ secrets.AzureAppService_PublishProfile_8d3aab2430334a3784926fc700acd78f }}
+                    package: .
