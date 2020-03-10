@@ -5,7 +5,7 @@ import {i18n, Messages} from "../utils/i18n";
 
 export class VendaController {
 
-	public async create(request: Request, response: Response) {
+	public async create(_req, response: Response) {
 		await ServiceFactory.getVendaService().create()
 			.then(result => response.send(result))
 			.catch(reason => response.send(reason));
@@ -25,7 +25,7 @@ export class VendaController {
 			.catch(reason => response.send(reason));
 	}
 
-	public async findAll(request: Request, response: Response) {
+	public async findAll(_req, response: Response) {
 		await ServiceFactory.getVendaService().findAll()
 			.then(result => response.send(result))
 			.catch(reason => response.send(reason));

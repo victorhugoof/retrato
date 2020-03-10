@@ -8,7 +8,6 @@
 		"outDir": "./dist",
 		"baseUrl": "./src",
 		"noImplicitReturns": true,
-		"noImplicitAny": true,
 		"noUnusedParameters": true,
 		"noImplicitUseStrict": true,
 		"strictFunctionTypes": true

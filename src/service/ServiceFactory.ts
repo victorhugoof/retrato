@@ -27,7 +27,7 @@ export class ServiceFactory {
 		return ServiceFactory.factory;
 	}
 
-	private static getService<T>(serviceName, valueFn: () => T): T {
+	private static getService<T>(serviceName: any, valueFn: () => T): T {
 		const service = ServiceFactory.getInstance();
 		if (!service.services.get(serviceName)) {
 			service.services.set(serviceName, valueFn())

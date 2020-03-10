@@ -4,6 +4,7 @@ import {VendaRoutes} from "./VendaRoutes";
 import {ItemVendaRoutes} from "./ItemVendaRoutes";
 import {Message} from "../interfaces/Message";
 import {i18n, Messages} from "../utils/i18n";
+import {LoginRoutes} from "./LoginRoutes";
 
 class Routes {
 
@@ -11,7 +12,8 @@ class Routes {
 
 	constructor() {
 
-		this.router.get('/', (req, res) => res.send(new Message(i18n.getMessage(Messages.OK))));
+		this.router.get('/', (_req, res) => res.send(new Message(i18n.getMessage(Messages.OK))));
+		LoginRoutes.createRoutes(this.router);
 		ProdutoRoutes.createRoutes(this.router);
 		VendaRoutes.createRoutes(this.router);
 		ItemVendaRoutes.createRoutes(this.router);

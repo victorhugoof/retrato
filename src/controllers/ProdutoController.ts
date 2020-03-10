@@ -32,7 +32,7 @@ export class ProdutoController {
 			.catch(reason => response.send(reason));
 	}
 
-	public async findAll(request: Request, response: Response) {
+	public async findAll(_req, response: Response) {
 		await ServiceFactory.getProdutoService().findAll()
 			.then(result => response.send(result))
 			.catch(reason => response.send(reason));
