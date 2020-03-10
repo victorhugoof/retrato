@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import {Message} from "../interfaces/Message";
 import {ServiceFactory} from "../service/ServiceFactory";
+import {i18n, Messages} from "../utils/i18n";
 
 export class VendaController {
 
@@ -13,7 +14,7 @@ export class VendaController {
     public async delete(request: Request, response: Response) {
         const {id} = request.params;
         await ServiceFactory.getVendaService().delete(id)
-            .then(() => response.send(new Message('Venda excluída com sucesso!')))
+            .then(() => response.send(new Message(i18n.getMessage(Messages.VENDA_EXCLUIDA_COM_SUCESSO))))
             .catch(reason => response.send(reason));
     }
 
