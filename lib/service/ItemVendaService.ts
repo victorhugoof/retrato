@@ -4,6 +4,7 @@ import {ItemVenda} from "../interfaces/ItemVenda";
 import {ItemVendaDetalhado} from "../interfaces/ItemVendaDetalhado";
 import {ServiceFactory} from "./ServiceFactory";
 import {getMessage, Messages} from "../helper/i18n";
+import {BusinessException} from "../helper/BusinessException";
 
 export class ItemVendaService {
 

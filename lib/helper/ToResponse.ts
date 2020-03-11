@@ -1,6 +1,7 @@
 import {Response} from 'express';
 import {getMessage, Messages} from "./i18n";
 import {Message} from "../interfaces/Message";
+import {BusinessException} from "./BusinessException";
 
 export async function toResponse(promise: Promise<any>, response: Response, message?: Messages) {
 	await promise

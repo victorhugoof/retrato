@@ -39,7 +39,7 @@ export class App {
 	private static configI18n(): void {
 		i18n.configure({
 			locales: ['pt'],
-			directory: __dirname + '../locales',
+			directory: __dirname + '/../locales',
 			defaultLocale: 'pt'
 		});
 	}

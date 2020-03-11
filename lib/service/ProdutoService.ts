@@ -3,6 +3,7 @@ import {ProdutoModel} from "../models/Produto";
 import getNextId from "../helper/NextId";
 import {ServiceFactory} from "./ServiceFactory";
 import {getMessage, Messages} from "../helper/i18n";
+import {BusinessException} from "../helper/BusinessException";
 
 export class ProdutoService {
 
