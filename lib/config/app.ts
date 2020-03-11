@@ -5,6 +5,7 @@ import * as cors from 'cors';
 import * as i18n from 'i18n';
 import * as bodyParser from 'body-parser';
 import {Routes} from "../routes/Routes";
+import {Message} from "../interfaces/Message";
 
 export class App {
 
@@ -38,7 +39,7 @@ export class App {
 	private static configI18n(): void {
 		i18n.configure({
 			locales: ['pt'],
-			directory: __dirname + '/locales',
+			directory: __dirname + '../locales',
 			defaultLocale: 'pt'
 		});
 	}
@@ -63,6 +64,7 @@ export class App {
 		App.server.all('/oauth/token', App.obtainToken);
 		App.server.all('*', App.authenticateRequest);
 		App.server.all('/', (_req, res) => res.send('API Retrato da Moda -> OK'));
+		App.server.get('/oauth/verify', (_req, res) => res.send(new Message('OK')));
 	}
 
 	private static mongoSetup(): void {

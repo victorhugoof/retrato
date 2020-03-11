@@ -23,7 +23,12 @@ class Oauth {
 	static async getAccessToken(token, callback) {
 		await TokenModel.findOne({
 			accessToken: token
-		}).lean().exec(((callback, err, token) => callback(err, token)).bind(null, callback));
+		}).lean().exec(((callback, err, token) => {
+			token.customAtributes = {
+				'teste': 'teste'
+			}
+			callback(err, token);
+		}).bind(null, callback));
 	};
 
 	static async getRefreshToken(refreshToken, callback) {
