@@ -63,7 +63,7 @@ export class App {
 
 		App.server.all('/oauth/token', App.obtainToken);
 		App.server.all('*', App.authenticateRequest);
-		App.server.all('/', (_req, res) => res.send('API Retrato da Moda -> OK'));
+		App.server.all('/', (_req, res) => res.send(new Message('API Retrato da Moda -> OK')));
 		App.server.get('/oauth/verify', (_req, res) => res.send(new Message('OK')));
 	}
 

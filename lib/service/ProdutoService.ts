@@ -1,8 +1,8 @@
 import {Produto} from "../interfaces/Produto";
 import {ProdutoModel} from "../models/Produto";
-import getNextId from "../utils/NextId";
-import {Message} from "../interfaces/Message";
+import getNextId from "../helper/NextId";
 import {ServiceFactory} from "./ServiceFactory";
+import {getMessage, Messages} from "../helper/i18n";
 
 export class ProdutoService {
 
@@ -20,7 +20,7 @@ export class ProdutoService {
 		return new Promise(async (resolve, reject) => {
 			const existe = await this.find({id});
 			if (!existe) {
-				reject(new Message('Produto não encontrado!'));
+				reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
 			}
 
 			await ProdutoModel.update({id}, {
@@ -33,7 +33,7 @@ export class ProdutoService {
 				}
 				resolve(res);
 			});
-			reject(new Message('Erro inesperado!'));
+			reject(new BusinessException(getMessage(Messages.ERRO_INESPERADO)));
 		});
 	}
 
@@ -41,12 +41,12 @@ export class ProdutoService {
 		return new Promise(async (resolve, reject) => {
 			const existe = await this.find({id});
 			if (!existe) {
-				reject(new Message('Produto não encontrado!'));
+				reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
 			}
 
 			const permiteExcluir = await ServiceFactory.getItemVendaService().existeItemVendaProduto(id);
 			if (!permiteExcluir) {
-				reject(new Message('Produto possui venda!'));
+				reject(new BusinessException(getMessage(Messages.PRODUTO_POSSUI_VENDA)));
 			}
 
 			await ProdutoModel.deleteOne({id}, (err) => {
@@ -55,7 +55,7 @@ export class ProdutoService {
 				}
 				resolve();
 			});
-			reject(new Message('Erro inesperado!'));
+			reject(new BusinessException(getMessage(Messages.ERRO_INESPERADO)));
 		});
 	}
 

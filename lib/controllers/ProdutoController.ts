@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import {ServiceFactory} from "../service/ServiceFactory";
-import {Messages} from "../utils/i18n";
-import {toResponse} from "../utils/ToResponse";
+import {Messages} from "../helper/i18n";
+import {toResponse} from "../helper/ToResponse";
 
 export class ProdutoController {
 
@@ -16,7 +16,7 @@ export class ProdutoController {
 
 	public async delete(request: Request, response: Response) {
 		const {id} = request.params;
-		await toResponse(ServiceFactory.getProdutoService().delete(id), response, Messages.PRODUTO_EXCLUIDO_COM_SUCESSO);
+		await toResponse(ServiceFactory.getProdutoService().delete(id), response, Messages.REGISTRO_EXCLUIDO_COM_SUCESSO);
 	}
 
 	public async find(request: Request, response: Response) {

@@ -1,9 +1,9 @@
-import getNextId from "../utils/NextId";
+import getNextId from "../helper/NextId";
 import {ItemVendaModel} from "../models/ItemVendaModel";
-import {Message} from "../interfaces/Message";
 import {ItemVenda} from "../interfaces/ItemVenda";
 import {ItemVendaDetalhado} from "../interfaces/ItemVendaDetalhado";
 import {ServiceFactory} from "./ServiceFactory";
+import {getMessage, Messages} from "../helper/i18n";
 
 export class ItemVendaService {
 
@@ -36,7 +36,7 @@ export class ItemVendaService {
 		return new Promise(async (resolve, reject) => {
 			const item = await ItemVendaModel.findOne({id});
 			if (!item) {
-				reject(new Message('Item não encontrado!'));
+				reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
 			}
 
 			await ItemVendaModel.deleteOne({id}, (err) => {
@@ -45,7 +45,7 @@ export class ItemVendaService {
 				}
 				resolve();
 			});
-			reject(new Message('Erro inesperado'));
+			reject(new BusinessException(getMessage(Messages.ERRO_INESPERADO)));
 		});
 	}
 
