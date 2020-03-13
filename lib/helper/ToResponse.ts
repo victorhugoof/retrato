@@ -5,7 +5,7 @@ import {BusinessException} from "./BusinessException";
 
 export async function toResponse(promise: Promise<any>, response: Response, message?: Messages) {
 	await promise
-		.then(result => response.status(200).send(getResponseBody(result, message)))
+		.then(result => response.status(200).json(getResponseBody(result, message)))
 		.catch(reason => {
 			if (reason && (reason instanceof Message || reason instanceof BusinessException)) {
 				response.status(400).json(reason);

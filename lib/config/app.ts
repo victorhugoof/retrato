@@ -1,5 +1,5 @@
 import * as express from "express";
-import {Application} from "express";
+import {Application, Request, Response} from "express";
 import * as mongoose from "mongoose";
 import * as cors from 'cors';
 import * as i18n from 'i18n';
@@ -63,8 +63,8 @@ export class App {
 
 		App.server.all('/oauth/token', App.obtainToken);
 		App.server.all('*', App.authenticateRequest);
-		App.server.all('/', (_req, res) => res.send(new Message('API Retrato da Moda -> OK')));
-		App.server.get('/oauth/verify', (_req, res) => res.send(new Message('OK')));
+		App.server.all('/', (_req: Request, res: Response) => res.json(new Message('API Retrato da Moda -> OK')));
+		App.server.get('/oauth/verify', (_req: Request, res: Response) => res.json(true));
 	}
 
 	private static mongoSetup(): void {
@@ -80,20 +80,20 @@ export class App {
 		});
 	}
 
-	private static obtainToken(req, res) {
+	private static obtainToken(req: Request, res: Response) {
 
 		const request = new App.Request(req);
 		const response = new App.Response(res);
 
 		return App.oauth.token(request, response)
 			.then(function (token) {
-				res.send(token);
+				res.json(token);
 			}).catch(function (err) {
-				res.status(err.code || 500).send(err);
+				res.status(err.code || 500).json(err);
 			});
 	}
 
-	private static authenticateRequest(req, res, next) {
+	private static authenticateRequest(req: Request, res: Response, next) {
 
 		if (req.path.startsWith('/oauth') || req.path == '/') {
 			return next();
@@ -106,7 +106,7 @@ export class App {
 			.then(function (_token) {
 				next();
 			}).catch(function (err) {
-				res.status(err.code || 500).send(err);
+				res.status(err.code || 500).json(err);
 			});
 	}
 }
