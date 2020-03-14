@@ -24,7 +24,7 @@ export class ProdutoService {
 				reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
 			}
 
-			await ProdutoModel.update({id}, {
+			await ProdutoModel.updateOne({id}, {
 				codigo: produto.codigo,
 				nome: produto.nome,
 				valor: produto.valor

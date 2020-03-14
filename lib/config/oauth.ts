@@ -3,6 +3,7 @@ import {ClientModel} from "../models/Client";
 import {UsuarioModel} from "../models/Usuario";
 import {Usuario} from "../interfaces/Usuario";
 import {Client} from "../interfaces/Client";
+import {Token} from "../interfaces/Token";
 
 class Oauth {
 
@@ -26,7 +27,7 @@ class Oauth {
 		}).lean().exec(((callback, err, token) => {
 			token.customAtributes = {
 				'teste': 'teste'
-			}
+			};
 			callback(err, token);
 		}).bind(null, callback));
 	};
@@ -37,17 +38,10 @@ class Oauth {
 		}).lean().exec(((callback, err, token) => callback(err, token)).bind(null, callback));
 	};
 
-	static async saveToken(token, client: Client, user: Usuario, callback) {
+	static async saveToken(token: Token, client: Client, user: Usuario, callback) {
 
-		token.client = {
-			id: client.clientId,
-			aqui_va_info: 'ok'
-		};
-
-		token.user = {
-			username: user.usuario,
-			aqui_va_info: 'sla'
-		};
+		token.client_id = client.clientId;
+		token.usuario_id = user.id;
 
 		await new TokenModel(token).save(((callback, err, token) => {
 			if (!token) {
@@ -82,6 +76,7 @@ class Oauth {
 		const usuario = await UsuarioModel.findOne({usuario: 'admin'});
 		if (!usuario) {
 			await new UsuarioModel({
+				id: 1,
 				usuario: 'admin',
 				senha: 'admin'
 			}).save();
