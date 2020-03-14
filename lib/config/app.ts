@@ -6,6 +6,7 @@ import * as i18n from 'i18n';
 import * as bodyParser from 'body-parser';
 import {Routes} from "../routes/Routes";
 import {Message} from "../interfaces/Message";
+import {Token} from "oauth2-server";
 
 export class App {
 
@@ -86,7 +87,7 @@ export class App {
 		const response = new App.Response(res);
 
 		return App.oauth.token(request, response)
-			.then(function (token) {
+			.then(function (token: Token) {
 				res.json(token);
 			}).catch(function (err) {
 				res.status(err.code || 500).json(err);
@@ -95,7 +96,7 @@ export class App {
 
 	private static authenticateRequest(req: Request, res: Response, next) {
 
-		if (req.path.startsWith('/oauth') || req.path == '/') {
+		if ((req.path.startsWith('/oauth') && req.path !== '/oauth/verify') || req.path === '/') {
 			return next();
 		}
 
