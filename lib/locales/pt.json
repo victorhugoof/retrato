@@ -2,5 +2,6 @@
 	"REGISTRO_EXCLUIDO_COM_SUCESSO": "Registro excluído com sucesso",
 	"REGISTRO_NAO_ENCONTRADO": "Registro não encontrado",
 	"ERRO_INESPERADO": "Erro inesperado",
-	"PRODUTO_POSSUI_VENDA": "Produto possui venda"
+	"PRODUTO_POSSUI_VENDA": "Produto possui venda",
+	"PARAMETROS_INVALIDOS": "Parâmetros informados inválidos"
 }

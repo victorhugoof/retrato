@@ -24,12 +24,7 @@ class Oauth {
 	static async getAccessToken(token, callback) {
 		await TokenModel.findOne({
 			accessToken: token
-		}).lean().exec(((callback, err, token) => {
-			token.customAtributes = {
-				'teste': 'teste'
-			};
-			callback(err, token);
-		}).bind(null, callback));
+		}).lean().exec(((callback, err, token) => callback(err, token)).bind(null, callback));
 	};
 
 	static async getRefreshToken(refreshToken, callback) {
@@ -40,8 +35,8 @@ class Oauth {
 
 	static async saveToken(token: Token, client: Client, user: Usuario, callback) {
 
-		token.client_id = client.clientId;
-		token.usuario_id = user.id;
+		token.client = {id: client.clientId};
+		token.user = {username: user.usuario};
 
 		await new TokenModel(token).save(((callback, err, token) => {
 			if (!token) {

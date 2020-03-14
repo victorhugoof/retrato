@@ -13,30 +13,36 @@ export class VendaService {
 		return VendaModel.create({id});
 	}
 
-	public async delete(id): Promise<void> {
+	public async delete(id: number): Promise<void> {
 		return new Promise(async (resolve, reject) => {
+			if (!id) {
+				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
+			}
 			const venda = await VendaModel.findOne({id});
 			if (!venda) {
-				reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
+				return reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
 			}
 
 			await ServiceFactory.getItemVendaService().deletaItensVenda(venda.id);
 			await VendaModel.deleteOne({id}, (err) => {
 				if (err) {
-					reject(err);
+					return reject(err);
 				}
-				resolve();
+				return resolve();
 			});
 		});
 	}
 
-	public async find(id): Promise<Venda> {
+	public async find(id: number): Promise<Venda> {
 		return new Promise(async (resolve, reject) => {
+			if (!id) {
+				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
+			}
 			const venda = await VendaModel.findOne({id});
 			if (!venda) {
-				reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
+				return reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
 			}
-			resolve(venda);
+			return resolve(venda);
 		});
 	}
 
@@ -44,14 +50,18 @@ export class VendaService {
 		return VendaModel.find();
 	}
 
-	public async findVendaDetalhada(id) {
+	public async findVendaDetalhada(id: number) {
 		return new Promise(async (resolve, reject) => {
+			if (!id) {
+				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
+			}
 			try {
 				const venda = await this.find(id);
 				const itens = await ServiceFactory.getItemVendaService().findItensVendaDetalhado(venda.id);
-				resolve(new VendaDetalhada(venda, itens));
+				return resolve(new VendaDetalhada(venda, itens));
 			} catch (e) {
-				reject(new BusinessException(getMessage(Messages.ERRO_INESPERADO, e)));
+				console.error(e);
+				return reject(new BusinessException(getMessage(Messages.ERRO_INESPERADO, e)));
 			}
 		});
 	}

@@ -32,55 +32,72 @@ export class ItemVendaService {
 		});
 	}
 
-	public async delete(id): Promise<void> {
+	public async delete(id: number): Promise<void> {
 
 		return new Promise(async (resolve, reject) => {
+			if (!id) {
+				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
+			}
 			const item = await ItemVendaModel.findOne({id});
 			if (!item) {
-				reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
+				return reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
 			}
 
 			await ItemVendaModel.deleteOne({id}, (err) => {
 				if (err) {
-					reject(err);
+					return reject(err);
 				}
-				resolve();
+				return resolve();
 			});
-			reject(new BusinessException(getMessage(Messages.ERRO_INESPERADO)));
+			return reject(new BusinessException(getMessage(Messages.ERRO_INESPERADO)));
 		});
 	}
 
-	public async findAll(venda_id): Promise<ItemVenda[]> {
-		return ItemVendaModel.find({venda_id});
+	public async findAll(venda_id: number): Promise<ItemVenda[]> {
+		return new Promise(async (resolve, reject) => {
+			if (!venda_id) {
+				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
+			}
+			return resolve(await ItemVendaModel.find({venda_id}))
+		});
 	}
 
 	public async deletaItensVenda(venda_id: number): Promise<void> {
 		return new Promise(async (resolve, reject) => {
+			if (!venda_id) {
+				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
+			}
 			await ItemVendaModel.deleteMany({venda_id}, err => err ? reject(err) : resolve());
-			resolve();
+			return resolve();
 		});
 	}
 
 	public async findItensVendaDetalhado(venda_id: number): Promise<ItemVendaDetalhado[]> {
 		return new Promise(async (resolve, reject) => {
 			try {
+				if (!venda_id) {
+					return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
+				}
 				const itens = await this.findAll(venda_id);
 				const convert = await this.convert(itens);
-				resolve(convert);
+				return resolve(convert);
 			} catch (e) {
-				reject(e);
+				return reject(e);
 			}
 		});
 	}
 
 	public async existeItemVendaProduto(produto_id: number): Promise<boolean> {
 		return new Promise(async (resolve, reject) => {
+			if (!produto_id) {
+				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
+			}
 			const produto = await ItemVendaModel.exists({produto_id}, err => {
 				if (err) {
-					reject(err);
+					return reject(err);
 				}
 			});
-			resolve(produto);
+			return resolve(produto || false);
 		});
 	}
 

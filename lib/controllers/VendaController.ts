@@ -1,31 +1,58 @@
 import {Request, Response} from 'express';
 import {ServiceFactory} from "../service/ServiceFactory";
-import {Messages} from "../helper/i18n";
+import {getMessage, Messages} from "../helper/i18n";
 import {toResponse} from "../helper/ToResponse";
+import {Message} from "../interfaces/Message";
+import {toNumber} from "../helper/ToNumber";
 
 export class VendaController {
 
 	public async create(_req, response: Response) {
-		await toResponse(ServiceFactory.getVendaService().create(), response);
+		try {
+			await toResponse(ServiceFactory.getVendaService().create(), response);
+		} catch (e) {
+			console.error(e);
+			response.status(500).json(e || new Message(getMessage(Messages.ERRO_INESPERADO)));
+		}
 	}
 
 	public async delete(request: Request, response: Response) {
-		const {id} = request.params;
-		await toResponse(ServiceFactory.getVendaService().delete(id), response, Messages.REGISTRO_EXCLUIDO_COM_SUCESSO);
+		try {
+			const {id} = request.params;
+			await toResponse(ServiceFactory.getVendaService().delete(toNumber(id)), response, Messages.REGISTRO_EXCLUIDO_COM_SUCESSO);
+		} catch (e) {
+			console.error(e);
+			response.status(500).json(e || new Message(getMessage(Messages.ERRO_INESPERADO)));
+		}
 	}
 
 	public async find(request: Request, response: Response) {
-		const {id} = request.params;
-		await toResponse(ServiceFactory.getVendaService().find(id), response);
+		try {
+			const {id} = request.params;
+			await toResponse(ServiceFactory.getVendaService().find(toNumber(id)), response);
+		} catch (e) {
+			console.error(e);
+			response.status(500).json(e || new Message(getMessage(Messages.ERRO_INESPERADO)));
+		}
 	}
 
 	public async findAll(_req, response: Response) {
-		await toResponse(ServiceFactory.getVendaService().findAll(), response);
+		try {
+			await toResponse(ServiceFactory.getVendaService().findAll(), response);
+		} catch (e) {
+			console.error(e);
+			response.status(500).json(e || new Message(getMessage(Messages.ERRO_INESPERADO)));
+		}
 	}
 
 	public async findVendaDetalhada(request: Request, response: Response) {
-		const {id} = request.params;
-		await toResponse(ServiceFactory.getVendaService().findVendaDetalhada(id), response);
+		try {
+			const {id} = request.params;
+			await toResponse(ServiceFactory.getVendaService().findVendaDetalhada(toNumber(id)), response);
+		} catch (e) {
+			console.error(e);
+			response.status(500).json(e || new Message(getMessage(Messages.ERRO_INESPERADO)));
+		}
 	}
 
 }

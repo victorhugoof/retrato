@@ -15,7 +15,7 @@ export class App {
 	private static Response = App.OAuth2Server.Response;
 	private static server: Application = express();
 
-	private static mongoUrl: string = 'mongodb+srv://pod1:pod1@cluster-uhxmx.gcp.mongodb.net/retrato-da-moda?retryWrites=true&w=majority';
+	private static mongoUrl: string = 'mongodb+srv://pod1:pod1@cluster-uhxmx.gcp.mongodb.net/retrato?retryWrites=true&w=majority';
 	private static port = 8080;
 
 	private static get oauth() {

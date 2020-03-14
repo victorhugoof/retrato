@@ -7,11 +7,18 @@ export async function toResponse(promise: Promise<any>, response: Response, mess
 	await promise
 		.then(result => response.status(200).json(getResponseBody(result, message)))
 		.catch(reason => {
-			if (reason && (reason instanceof Message || reason instanceof BusinessException)) {
-				response.status(400).json(reason);
-			} else {
-				response.status(500).json(reason || new Message(getMessage(Messages.ERRO_INESPERADO)));
+			let ret = new Message(getMessage(Messages.ERRO_INESPERADO));
+			let statusCode = 500;
+			if (reason) {
+				if (reason instanceof Message) {
+					ret = reason;
+					statusCode = 400;
+				} else if (reason instanceof BusinessException) {
+					ret = new Message(reason.message);
+					statusCode = 400;
+				}
 			}
+			return response.status(statusCode).json(ret);
 		});
 }
 
