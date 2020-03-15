@@ -1,5 +1,6 @@
 import {Router} from "express";
 import {ProdutoController} from "../controllers/ProdutoController";
+import {param} from "express-validator";
 
 export class ProdutoRoutes {
 
@@ -7,9 +8,9 @@ export class ProdutoRoutes {
 		const controller = new ProdutoController();
 
 		router.post('/produto/salvar', controller.create);
-		router.put('/produto/atualizar/:id', controller.update);
-		router.delete('/produto/excluir/:id', controller.delete);
-		router.get('/produto/:id', controller.find);
+		router.put('/produto/atualizar/:id', [param('id', 'Id é obrigatório').notEmpty().isNumeric()], controller.update);
+		router.delete('/produto/excluir/:id', [param('id', 'Id é obrigatório').notEmpty().isNumeric()], controller.delete);
+		router.get('/produto/:id', [param('id', 'Id é obrigatório').notEmpty().isNumeric()], controller.find);
 		router.get('/produto', controller.findAll);
 	}
 }

@@ -15,9 +15,6 @@ export class VendaService {
 
 	public async delete(id: number): Promise<void> {
 		return new Promise(async (resolve, reject) => {
-			if (!id) {
-				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
-			}
 			const venda = await VendaModel.findOne({id});
 			if (!venda) {
 				return reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
@@ -35,9 +32,6 @@ export class VendaService {
 
 	public async find(id: number): Promise<Venda> {
 		return new Promise(async (resolve, reject) => {
-			if (!id) {
-				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
-			}
 			const venda = await VendaModel.findOne({id});
 			if (!venda) {
 				return reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
@@ -52,9 +46,6 @@ export class VendaService {
 
 	public async findVendaDetalhada(id: number) {
 		return new Promise(async (resolve, reject) => {
-			if (!id) {
-				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
-			}
 			try {
 				const venda = await this.find(id);
 				const itens = await ServiceFactory.getItemVendaService().findItensVendaDetalhado(venda.id);

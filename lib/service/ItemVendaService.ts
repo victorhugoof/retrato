@@ -35,9 +35,6 @@ export class ItemVendaService {
 	public async delete(id: number): Promise<void> {
 
 		return new Promise(async (resolve, reject) => {
-			if (!id) {
-				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
-			}
 			const item = await ItemVendaModel.findOne({id});
 			if (!item) {
 				return reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
@@ -54,19 +51,13 @@ export class ItemVendaService {
 	}
 
 	public async findAll(venda_id: number): Promise<ItemVenda[]> {
-		return new Promise(async (resolve, reject) => {
-			if (!venda_id) {
-				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
-			}
+		return new Promise(async (resolve, _reject) => {
 			return resolve(await ItemVendaModel.find({venda_id}))
 		});
 	}
 
 	public async deletaItensVenda(venda_id: number): Promise<void> {
 		return new Promise(async (resolve, reject) => {
-			if (!venda_id) {
-				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
-			}
 			await ItemVendaModel.deleteMany({venda_id}, err => err ? reject(err) : resolve());
 			return resolve();
 		});
@@ -75,9 +66,6 @@ export class ItemVendaService {
 	public async findItensVendaDetalhado(venda_id: number): Promise<ItemVendaDetalhado[]> {
 		return new Promise(async (resolve, reject) => {
 			try {
-				if (!venda_id) {
-					return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
-				}
 				const itens = await this.findAll(venda_id);
 				const convert = await this.convert(itens);
 				return resolve(convert);
@@ -89,9 +77,6 @@ export class ItemVendaService {
 
 	public async existeItemVendaProduto(produto_id: number): Promise<boolean> {
 		return new Promise(async (resolve, reject) => {
-			if (!produto_id) {
-				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
-			}
 			const produto = await ItemVendaModel.exists({produto_id}, err => {
 				if (err) {
 					return reject(err);

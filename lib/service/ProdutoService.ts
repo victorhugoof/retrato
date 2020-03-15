@@ -19,9 +19,6 @@ export class ProdutoService {
 
 	public async update(id: number, produto: Produto): Promise<Produto> {
 		return new Promise(async (resolve, reject) => {
-			if (!id) {
-				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
-			}
 			const existe = await this.find(id);
 			if (!existe) {
 				return reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
@@ -43,9 +40,6 @@ export class ProdutoService {
 
 	public async delete(id: number): Promise<void> {
 		return new Promise(async (resolve, reject) => {
-			if (!id) {
-				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
-			}
 			const existe = await this.find(id);
 			if (!existe) {
 				return reject(new BusinessException(getMessage(Messages.REGISTRO_NAO_ENCONTRADO)));
@@ -56,13 +50,12 @@ export class ProdutoService {
 				return reject(new BusinessException(getMessage(Messages.PRODUTO_POSSUI_VENDA)));
 			}
 
-			await ProdutoModel.deleteOne({id}, (err) => {
-				if (err) {
-					return reject(err);
-				}
-				return resolve();
-			});
-			reject(new BusinessException(getMessage(Messages.ERRO_INESPERADO)));
+			let error = null;
+			await ProdutoModel.deleteOne({id}, (err) => error = err);
+			if (error) {
+				return reject(error);
+			}
+			return resolve();
 		});
 	}
 
@@ -71,10 +64,7 @@ export class ProdutoService {
 	}
 
 	public async find(id: number): Promise<Produto> {
-		return new Promise(async (resolve, reject) => {
-			if (!id) {
-				return reject(new BusinessException(getMessage(Messages.PARAMETROS_INVALIDOS)));
-			}
+		return new Promise(async (resolve, _reject) => {
 			return resolve(await ProdutoModel.findOne({id}))
 		});
 	}

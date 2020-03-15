@@ -7,6 +7,7 @@ import * as bodyParser from 'body-parser';
 import {Routes} from "../routes/Routes";
 import {Message} from "../interfaces/Message";
 import {Token} from "oauth2-server";
+import {getMessage, Messages} from "../helper/i18n";
 
 export class App {
 
@@ -52,6 +53,9 @@ export class App {
 		App.server.use(i18n.init);
 		App.configOauth();
 		App.server.use(new Routes().router);
+		App.server.use(App.logErrors);
+		App.server.use(App.clientErrorHandler);
+		App.server.use(App.errorHandler);
 	}
 
 	private static configOauth() {
@@ -109,5 +113,23 @@ export class App {
 			}).catch(function (err) {
 				res.status(err.code || 500).json(err);
 			});
+	}
+
+	private static logErrors(err, _req, _res, next) {
+		console.error(err.stack);
+		next(err);
+	}
+
+	private static clientErrorHandler(err, req, res, next) {
+		if (req.xhr) {
+			res.status(500).send({error: getMessage(Messages.ERRO_INESPERADO)});
+		} else {
+			next(err);
+		}
+	}
+
+	private static errorHandler(err, _req, res, _next) {
+		res.status(500);
+		res.render('error', {error: err});
 	}
 }
